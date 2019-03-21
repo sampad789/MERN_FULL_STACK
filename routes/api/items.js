@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require ('../../middleware/auth');
 
 // Item Model 
 const Item = require ('../../modals/Item');
@@ -12,9 +13,10 @@ router.get('/', (req,res)=>{
     .then(items => res.json(items))
 });
 
-// setting up the POST route for  items 
+// setting up the POST route for  items ,passing auth (middleware) as a parameter to make 
+// the route private
 
-router.post('/',(req,res)=>{
+router.post('/',auth ,(req,res)=>{
     const newItem = new Item({
         name : req.body.name ,
         amount:req.body.amount
@@ -22,9 +24,10 @@ router.post('/',(req,res)=>{
     newItem.save().then(item =>res.json(item));
 });
 
-// Setting up the Delete route for a single item 
+// Setting up the Delete route for a single item  ,passing auth (middleware) as a parameter to make 
+// the route private
 
-router.delete('/:id',(req,res)=>{
+router.delete('/:id',auth,(req,res)=>{
     Item.findById(req.params.id)
     .then (item => item.remove().then(()=> res.json({success:true}))
     ).catch(e => res.status(404).json({success: fail}))

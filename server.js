@@ -1,29 +1,33 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const config = require('config');
 const path = require('path');
-const items = require('./routes/api/items');
+
 
 
 const app = express();
 
 // body parser middleware 
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 // configuring database 
 
-const db = require('./config/keys').mongoURI;
+const db = config.get('mongoURI');
 
 // connect to mongo 
-mongoose.connect(db)
+mongoose.connect(db,{
+    useNewUrlParser:true,
+    useCreateIndex:true
+    })
     .then(() => console.log('mongoDb connected'))
     .catch(e => console.log(e));
 
 // Use routes 
 
-app.use('/api/items', items)
-
+app.use('/api/items', require('./routes/api/items'));
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
 //Serve static assests if in production mode 
 if (process.env.NODE_ENV === 'production'){
 //set static folder 

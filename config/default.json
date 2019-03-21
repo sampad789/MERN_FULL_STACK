@@ -1,0 +1,4 @@
+{
+    "mongoURI" : "mongodb+srv://sampad789:mongoose123@merncluster-ojzgo.mongodb.net/test?retryWrites=true",
+    "jwtSecret":"sl_myMernJwtSecert"
+}
