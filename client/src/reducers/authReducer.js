@@ -34,6 +34,7 @@ export default function(state = initialState, action) {
     // can do like this is multiple cases have same return value
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
+      localStorage.setItem("token", action.payload.token);
       return {
         ...state,
         ...action.payload,
